@@ -116,7 +116,7 @@ prepare() {
   qemu_tablet_vendor="Wacom"
   qemu_tablet_name="Wacom Tablet"
   cpu_brand=$(grep -m 1 'vendor_id' /proc/cpuinfo | cut -c13-)
-  cpu_speed=$(dmidecode | grep "Current Speed:" | cut -d" " -f3)
+  cpu_speed="3400"
 
   sed -i "s/\"BOCHS \"/\"$qemu_bios_string1\"/"                                             ./include/hw/acpi/aml-build.h
   sed -i "s/\"BXPC    \"/\"$qemu_bios_string2\"/"                                           ./include/hw/acpi/aml-build.h
@@ -129,7 +129,7 @@ prepare() {
   sed -i "s/\"QEMU\"/\"$qemu_tablet_vendor\"/"                                              ./hw/usb/dev-wacom.c
   sed -i "s/\"Wacom PenPartner\"/\"$qemu_tablet_name\"/"                                    ./hw/usb/dev-wacom.c
   sed -i "s/\"QEMU PenPartner Tablet\"/\"$qemu_tablet_name\"/"                              ./hw/usb/dev-wacom.c
-  sed -i "s/#define DEFAULT_CPU_SPEED 2000/#define DEFAULT_CPU_SPEED 3400/"                 ./hw/smbios/smbios.c
+  sed -i "s/#define DEFAULT_CPU_SPEED 2000/#define DEFAULT_CPU_SPEED $cpu_speed/"           ./hw/smbios/smbios.c
   sed -i "s/KVMKVMKVM\\\\0\\\\0\\\\0/$cpu_brand/"                                           ./include/standard-headers/asm-x86/kvm_para.h
   sed -i "s/KVMKVMKVM\\\\0\\\\0\\\\0/$cpu_brand/"                                           ./target/i386/kvm/kvm.c
   sed -i "s/\"bochs\"/\"$qemu_motherboard_bios_vendor\"/"                                   ./block/bochs.c
